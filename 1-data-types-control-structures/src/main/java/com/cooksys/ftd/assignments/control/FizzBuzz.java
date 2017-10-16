@@ -26,7 +26,10 @@ public class FizzBuzz {
      * @throws IllegalArgumentException if b is zero
      */
     public static boolean divides(int a, int b) throws IllegalArgumentException {
-        throw new NotImplementedException();
+    	if(b == 0) {
+    		throw new IllegalArgumentException();
+    	}
+    	return a%b==0;
     }
 
     /**
@@ -41,7 +44,13 @@ public class FizzBuzz {
      * @return a message according to the format above, or null if n is not divisible by either 3 or 5
      */
     public static String message(int n) {
-        throw new NotImplementedException();
+    	if(n % 3 == 0 && n%5 == 0)
+    		return n + ": FizzBuzz";
+    	if(n % 3 == 0) 
+    		return n + ": Fizz";
+    	if(n % 5 == 0)
+    		return n + ": Buzz";
+    	return null;
     }
 
     /**
@@ -55,7 +64,23 @@ public class FizzBuzz {
      * @throws IllegalArgumentException if the given end is less than the given start
      */
     public static String[] messages(int start, int end) throws IllegalArgumentException {
-        throw new NotImplementedException();
+    	if (start > end)
+    		throw new IllegalArgumentException();
+    	int arraySize = 0;
+    	for(int i = start; i < end; i++) {
+    		if(message(i) != null) {
+    			arraySize++;
+    		}
+    	}
+    	int currentPos = 0;
+    	String[] arr = new String[arraySize];
+    	for(int i = start;i<end; i++) {
+    		if(message(i) != null) {
+    			arr[currentPos] = message(i);
+    			currentPos++;
+    		}
+    	}
+    	return arr;
     }
 
     /**
@@ -63,7 +88,9 @@ public class FizzBuzz {
      * the relevant messages to sysout
      */
     public static void main(String[] args) {
-        throw new NotImplementedException();
+    	for(int x = 1; x < 115; x++) {
+    		System.out.printf(message(x));
+    	}
     }
 
 }
