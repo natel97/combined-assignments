@@ -88,9 +88,8 @@ public class FizzBuzz {
      * the relevant messages to sysout
      */
     public static void main(String[] args) {
-    	for(int x = 1; x < 115; x++) {
-    		System.out.printf(message(x));
-    	}
+    	for(String x : messages(1,115))
+    		System.out.println(x);
     }
 
 }
