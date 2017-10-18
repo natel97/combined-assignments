@@ -3,6 +3,9 @@ package com.cooksys.ftd.assignments.objects;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class Rational implements IRational {
+	
+	private int _numerator;
+	private int _denominator;
     /**
      * Constructor for rational values of the type:
      * <p>
@@ -15,7 +18,10 @@ public class Rational implements IRational {
      * @throws IllegalArgumentException if the given denominator is 0
      */
     public Rational(int numerator, int denominator) throws IllegalArgumentException {
-        throw new NotImplementedException();
+    	if(denominator == 0)
+    		throw new IllegalArgumentException();
+    	_numerator = numerator;
+    	_denominator = denominator;
     }
 
     /**
@@ -23,7 +29,7 @@ public class Rational implements IRational {
      */
     @Override
     public int getNumerator() {
-        throw new NotImplementedException();
+    	return _numerator;
     }
 
     /**
@@ -31,7 +37,7 @@ public class Rational implements IRational {
      */
     @Override
     public int getDenominator() {
-        throw new NotImplementedException();
+    	return _denominator;
     }
 
     /**
@@ -47,7 +53,9 @@ public class Rational implements IRational {
      */
     @Override
     public Rational construct(int numerator, int denominator) throws IllegalArgumentException {
-        throw new NotImplementedException();
+    	if (denominator == 0)
+    		throw new IllegalArgumentException();
+    	return new Rational(numerator,denominator);
     }
 
     /**
@@ -58,7 +66,11 @@ public class Rational implements IRational {
      */
     @Override
     public boolean equals(Object obj) {
-        throw new NotImplementedException();
+    	if (!(obj instanceof Rational))
+    		return false;
+    	Rational rational = (Rational)obj;
+    	return (_numerator == rational._numerator && _denominator == rational._denominator);
+    	
     }
 
     /**
@@ -70,6 +82,6 @@ public class Rational implements IRational {
      */
     @Override
     public String toString() {
-        throw new NotImplementedException();
-    }
+    	return (_numerator < 0 != _denominator < 0) ? "-" + Math.abs(_numerator) + "/" + Math.abs(_denominator) : Math.abs(_numerator) + "/" + Math.abs(_denominator);
+    }     
 }
