@@ -3,13 +3,20 @@ package com.cooksys.ftd.assignments.collections.model;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class FatCat implements Capitalist {
+	
+	private String _name;
+	private int _salary;
+	private FatCat _owner;
 
     public FatCat(String name, int salary) {
-        throw new NotImplementedException();
+        this._name = name;
+        this._salary = salary;
     }
 
     public FatCat(String name, int salary, FatCat owner) {
-        throw new NotImplementedException();
+        _name = name;
+        _salary = salary;
+        _owner = owner;
     }
 
     /**
@@ -17,7 +24,7 @@ public class FatCat implements Capitalist {
      */
     @Override
     public String getName() {
-        throw new NotImplementedException();
+        return _name;
     }
 
     /**
@@ -25,7 +32,7 @@ public class FatCat implements Capitalist {
      */
     @Override
     public int getSalary() {
-        throw new NotImplementedException();
+        return _salary;
     }
 
     /**
@@ -33,7 +40,7 @@ public class FatCat implements Capitalist {
      */
     @Override
     public boolean hasParent() {
-        throw new NotImplementedException();
+        return(_owner != null);
     }
 
     /**
@@ -41,6 +48,16 @@ public class FatCat implements Capitalist {
      */
     @Override
     public FatCat getParent() {
-        throw new NotImplementedException();
+        return _owner;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+    	if(!(obj instanceof FatCat))
+    		return false;
+    	
+    	FatCat o = (FatCat)obj;
+    	
+    	return ((this._name == o._name) && (this._salary == o._salary) && (this._owner == o._owner));
     }
 }

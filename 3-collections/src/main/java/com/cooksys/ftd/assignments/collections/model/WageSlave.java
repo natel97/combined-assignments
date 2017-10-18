@@ -3,13 +3,20 @@ package com.cooksys.ftd.assignments.collections.model;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class WageSlave implements Capitalist {
-
+	
+	String _name;
+	int _salary;
+	FatCat _owner;
+	
     public WageSlave(String name, int salary) {
-        throw new NotImplementedException();
+        this._name = name;
+        this._salary = salary;
     }
 
     public WageSlave(String name, int salary, FatCat owner) {
-        throw new NotImplementedException();
+        this._name = name;
+        this._salary = salary;
+        this._owner = owner;
     }
 
     /**
@@ -17,7 +24,7 @@ public class WageSlave implements Capitalist {
      */
     @Override
     public String getName() {
-        throw new NotImplementedException();
+        return _name;
     }
 
     /**
@@ -25,7 +32,7 @@ public class WageSlave implements Capitalist {
      */
     @Override
     public int getSalary() {
-        throw new NotImplementedException();
+        return _salary;
     }
 
     /**
@@ -33,7 +40,7 @@ public class WageSlave implements Capitalist {
      */
     @Override
     public boolean hasParent() {
-        throw new NotImplementedException();
+        return (_owner != null);
     }
 
     /**
@@ -41,6 +48,15 @@ public class WageSlave implements Capitalist {
      */
     @Override
     public FatCat getParent() {
-        throw new NotImplementedException();
+        return _owner;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+    	if(!(obj instanceof WageSlave))
+    		return false;
+    	WageSlave o = (WageSlave) obj;
+    	return((o._name == this._name) && (o._owner == this._owner) && (o._salary == this._salary));
+    }
+    
 }
