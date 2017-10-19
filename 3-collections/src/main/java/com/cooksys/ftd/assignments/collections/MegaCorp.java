@@ -3,6 +3,8 @@ package com.cooksys.ftd.assignments.collections;
 import com.cooksys.ftd.assignments.collections.hierarchy.Hierarchy;
 import com.cooksys.ftd.assignments.collections.model.Capitalist;
 import com.cooksys.ftd.assignments.collections.model.FatCat;
+import com.cooksys.ftd.assignments.collections.model.WageSlave;
+
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.*;
@@ -10,8 +12,8 @@ import java.util.*;
 public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
 
 //	HashMap<Capitalist, HashSet<Capitalist>> people = new HashMap<>();
-	HashSet<Capitalist> people = new HashSet<>();
-
+//	HashSet<Capitalist> people = new HashSet<>();
+	private Set<Capitalist> people = new HashSet<>();
 	/**
 	 * Adds a given element to the hierarchy.
 	 * <p>
@@ -33,27 +35,11 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
 	 */
 	@Override
 	public boolean add(Capitalist capitalist) {
-		if(capitalist == null)
-			return false;
-		
-		if(has(capitalist))
-			return false;
-		
-//		boolean isAParent = false;
-//		for(Capitalist person : people.keySet()) {
-//			for(Capitalist currentPerson : people.get(person))
-//				if(currentPerson.equals(capitalist))
-//					return false;
-//		}
-		
-		for(Capitalist person : people) {
-			if(person.getParent().equals(capitalist) || capitalist.getParent().equals(person)) {
-				people.add(capitalist);
-				return true;
-			}
-		}
-		return false;
-	}
+		if (capitalist == null || !capitalist.hasParent() && capitalist instanceof WageSlave)
+        	return false;	
+		add(capitalist.getParent());
+    	return people.add(capitalist);
+    }
 
 	/**
 	 * @param capitalist
@@ -80,7 +66,8 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
 	 */
 	@Override
 	public Set<Capitalist> getElements() {
-		return people;
+		Set<Capitalist> mySet = new HashSet<>(people);
+		return mySet;
 	}
 
 	/**
@@ -89,11 +76,10 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
 	 */
 	@Override
 	public Set<FatCat> getParents() {
-		HashSet<FatCat> temp = new HashSet<>();
+		Set<FatCat> temp = new HashSet<>();
 		for (Capitalist person : people) {
-			if (person.hasParent())
-				if (!(temp.contains(person.getParent())))
-					temp.add(person.getParent());
+			if(person instanceof FatCat)
+				temp.add((FatCat)person);
 		}
 		return temp;
 	}
@@ -107,11 +93,12 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
 	 */
 	@Override
 	public Set<Capitalist> getChildren(FatCat fatCat) {
-		HashSet<Capitalist> temp = new HashSet<>();
-		for (Capitalist person : people) {
-			if (person.getParent().equals(fatCat))
+		Set<Capitalist> temp = new HashSet<>();
+		if(!(has(fatCat)))
+			return temp;
+		for (Capitalist person : people) 
+			if (person.hasParent() && person.getParent().equals(fatCat))
 				temp.add(person);
-		}
 		return temp;
 	}
 
@@ -122,15 +109,11 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
 	 */
 	@Override
 	public Map<FatCat, Set<Capitalist>> getHierarchy() {
-		LinkedList<Capitalist> currentSet = new LinkedList<>();
-		HashMap<FatCat, Capitalist> toReturn = new HashMap<>();
-		for(Capitalist person : people) {
-			for(Capitalist currentPerson : people) {
-				if 
-			}
-		}
-			
-			
+		Map<FatCat, Set<Capitalist>> toReturn = new HashMap<>();
+		for(Capitalist person : people)
+			if (person instanceof FatCat) 
+			toReturn.put((FatCat)person, getChildren((FatCat)person));
+		return toReturn;
 	}
 
 	/**
@@ -141,13 +124,16 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
 	 */
 	@Override
 	public List<FatCat> getParentChain(Capitalist capitalist) {
-		LinkedList<FatCat> temp = new LinkedList<>();
-		if(!(capitalist.hasParent()))
-			return temp;
-		FatCat cap = capitalist.getParent();
-		while(cap.hasParent()) {
-			temp.add(cap);
-			cap = cap.getParent();
+		List<FatCat> temp = new LinkedList<>();
+		if(capitalist == null || !(has(capitalist.getParent())))
+		return temp;
+		while(capitalist.hasParent()) {
+			for(Capitalist person : people) {
+				if(capitalist.hasParent() && (capitalist.getParent().equals(person))) {
+					temp.add((FatCat)person);
+					capitalist = capitalist.getParent();
+				}
+			}
 		}
 		return temp;
 	}
